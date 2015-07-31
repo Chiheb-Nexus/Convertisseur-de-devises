@@ -9,3 +9,5 @@ mis en ligne sur le site Bitpay (url: http://www.bitpay.com)
 	    - Ajouter des Altcoins (Litecoin, dodgecoin, etc..)
 	    - Convertir les montants entrées par l'utilisateur
 	    - Ajouter d'autres sources pour la conversion des Bitcoin et les Altcoins
+
+![alt tag](http://img15.hostingpics.net/pics/932772Slection002.jpg)
