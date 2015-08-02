@@ -9,5 +9,9 @@ mis en ligne sur le site Bitpay (url: http://www.bitpay.com)
 	    - Ajouter des Altcoins (Litecoin, dodgecoin, etc..)
 	    - Convertir les montants entrées par l'utilisateur
 	    - Ajouter d'autres sources pour la conversion des Bitcoin et les Altcoins
+	Fixed:
+	    [x] Ajout de Litecoin en dépendance des Btc-E.com 
+	    [x] Ajout de QtCore.QCoreApplication.processEvents() pour que la fenêtre ne gêle pas en téléchargeant les données des sites.
+
 
 ![alt tag](http://img15.hostingpics.net/pics/932772Slection002.jpg)

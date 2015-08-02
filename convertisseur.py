@@ -21,6 +21,10 @@ class Form(QDialog):
 	    - Convertir les montants entrées par l'utilisateur
 	    - Ajouter d'autres sources pour la conversion des Bitcoin et les Altcoins
 
+	Fixed: 
+	    - Ajout de Litecoin en dépendance des Btc-E.com 
+	    - Ajout de QtCore.QCoreApplication.processEvents() pour que la fenêtre ne gêle pas en téléchargeant les données des sites.
+
 	"""
 	def __init__(self, parent=None):
 		super(Form, self).__init__(parent)
@@ -43,10 +47,13 @@ class Form(QDialog):
 		bitpayLabel = QLabel("Taux de change de Bitcoin sur <font color=red>Bitpay.com</font> date: "+ "<font color= blue>"+\
 			str(datetime.date.today()) + "</font>")
 		self.bitpayName = QComboBox()
-		self.bitpayName.addItem("1 Bitcoin")
-		self.bitpayRate = QComboBox()
-		self.bitcoinBitpay()
+		self.bitpayName.addItem("Choisir Bitcoin ou Altcoin")
+		self.bitpayName.addItem("Bitcoin")
+		self.bitpayName.addItem("Litecoin")
 
+		self.bitpayName.activated.connect(self.on_clicked)
+		self.bitpayRate = QComboBox()
+		
 		"""
 		# Qr Code for donation
 		image = QLabel()
@@ -89,6 +96,12 @@ class Form(QDialog):
 		amount = (self.rates[from_] / self.rates[to]) * self.fromSpinBox.value()
 		self.toLabel.setText("%0.2f" % amount)
 
+	def on_clicked(self):
+		if str(self.bitpayName.currentText()) == "Bitcoin":
+			self.bitcoinBitpay()
+		if str(self.bitpayName.currentText()) == "Litecoin":
+			self.litecoinBtce()
+
 	def getdata(self):
 		self.rates = {}
 		try:
@@ -112,16 +125,62 @@ class Form(QDialog):
 
 
 	def bitcoinBitpay(self):
+		"""
+		Bitcoin en multiples devises
 
-		url="https://bitpay.com/api/rates"
-		jURL=urllib2.urlopen(url)
-		jObject=json.load(jURL)
-		valueur = jObject
-		for i in valueur:
-			if i[u'rate'] != 1:
-				rate = unicode(i[u'rate'])
-				code = unicode(i[u'code'])
-				self.bitpayRate.addItem(unicode(rate) + " " + unicode(code))
+		"""
+
+		self.removeItems()
+		QtCore.QCoreApplication.processEvents() # Pour que la Gui ne gêle pas !
+
+		try:
+			url="https://bitpay.com/api/rates"
+			jURL=urllib2.urlopen(url)
+			jObject=json.load(jURL)
+			valeur = jObject
+			for i in valeur:
+				if i[u'rate'] != 1:
+					rate = unicode(i[u'rate'])
+					code = unicode(i[u'code'])
+					self.bitpayRate.addItem(unicode(rate) + " " + unicode(code))
+		except:
+			print "Error connection"
+
+	def litecoinBtce(self):
+		"""
+		Litecoin en USD
+		"""
+		self.removeItems()
+		QtCore.QCoreApplication.processEvents() # Pour que la Gui ne gêle pas !
+
+		try:
+			url="https://btc-e.com/api/2/ltc_usd/ticker"
+			jURL=urllib2.urlopen(url)
+			jObject=json.load(jURL)
+			valeur = jObject
+
+			high = valeur[u'ticker'][u'high']
+			low = valeur[u'ticker'][u'low']
+			avg = valeur[u'ticker'][u'avg']
+			vol_cur = valeur[u'ticker'][u'vol_cur']
+			last = valeur[u'ticker'][u'last']
+			buy = valeur[u'ticker'][u'buy']
+			sell = valeur[u'ticker'][u'sell']
+			server_time = valeur[u'ticker'][u'server_time']
+			usd = unicode(" USD")
+			self.bitpayRate.addItem(unicode("High: ") + unicode(avg) +usd)
+			self.bitpayRate.addItem(unicode("Low: ") + unicode(low) + usd)
+			self.bitpayRate.addItem(unicode("Average: ")+ unicode(avg) + usd)
+			self.bitpayRate.addItem(unicode("Volume: ")+ unicode(vol_cur) + usd)
+			self.bitpayRate.addItem(unicode("Last: ")+ unicode(last) + usd)
+			self.bitpayRate.addItem(unicode("Buy: ") + unicode(buy) + usd)
+			self.bitpayRate.addItem(unicode("Sell: ")+ unicode(sell) + usd)
+
+		except:
+			print "Error connection"
+
+	def removeItems(self):
+		self.bitpayRate.clear()
 
 
 if __name__ == '__main__':
