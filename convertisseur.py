@@ -44,8 +44,8 @@ class Form(QDialog):
 		self.toLabel = QLabel("1.00")
 
 		# Bitcoin widgets
-		bitpayLabel = QLabel("Taux de change de Bitcoin sur <font color=red>Bitpay.com</font> date: "+ "<font color= blue>"+\
-			str(datetime.date.today()) + "</font>")
+		bitpayLabel = QLabel("Taux de change de Bitcoin sur <font color=red>Bitpay.com</font> et litecoin sur<font color= red> Btc-E.com </font>. " +\
+			"<font color= blue>"+ str(datetime.date.today()) + "</font>" )
 		self.bitpayName = QComboBox()
 		self.bitpayName.addItem("Choisir Bitcoin ou Altcoin")
 		self.bitpayName.addItem("Bitcoin")
