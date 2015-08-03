@@ -14,4 +14,4 @@ mis en ligne sur le site Bitpay (url: http://www.bitpay.com)
 	    [x] Ajout de QtCore.QCoreApplication.processEvents() pour que la fenêtre ne gêle pas en téléchargeant les données des sites.
 
 
-![alt tag](http://3.bp.blogspot.com/-t0ccDJBIUQk/Vb-JvbFz3JI/AAAAAAAAAOw/TB24GCYpZcs/s640/S%25C3%25A9lection_003.jpg)
+![alt tag](http://1.bp.blogspot.com/-B8M0CHBDn5M/Vb-Ky1tixaI/AAAAAAAAAPA/tYhG0LfyfhQ/s640/S%25C3%25A9lection_003.bmp)
