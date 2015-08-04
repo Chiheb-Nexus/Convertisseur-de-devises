@@ -9,6 +9,9 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtCore
 
+__version__ = "v0.0.3"
+__author__ = "Chiheb NeXus"
+
 class Form(QDialog):
 	"""
 	Convertisseur.py permet de convertir en temps réel les devises nationales des pays en s'appuyant sur les données
@@ -30,6 +33,7 @@ class Form(QDialog):
 		super(Form, self).__init__(parent)
 
 		self.setFixedSize(700, 200)
+
 
 		date = self.getdata()
 		rates = sorted(self.rates.keys())
@@ -60,7 +64,7 @@ class Form(QDialog):
 		pixmap = QPixmap('qrcode.bmp')
 		image.setPixmap(pixmap)
 		"""
-		blog = QLabel("Blog:<font color=blue> Chiheb NeXus </font>: <b>http://nexus-coding.blogspot.com</b>")
+		blog = QLabel("Blog:<font color=blue> "+__author__+" </font>: <b>http://nexus-coding.blogspot.com</b>")
 		adresse = QLabel("Don en Bitcoin: <font size=3 color = blue><b>1CiGEcAs2pXmXXeTspccFVRmvUtPuiF2CV</b></font>")	
 
 		layout = QVBoxLayout()
@@ -88,7 +92,7 @@ class Form(QDialog):
 		self.connect(self.fromComboBox,SIGNAL("currentIndexChanged(int)"), self.updateUi)
 		self.connect(self.toComboBox,SIGNAL("currentIndexChanged(int)"), self.updateUi)
 		self.connect(self.fromSpinBox,SIGNAL("valueChanged(double)"), self.updateUi)
-		self.setWindowTitle("Convertisseur de devise")
+		self.setWindowTitle("Convertisseur de devise" +" "+ __version__)
 
 	def updateUi(self):
 		to = unicode(self.toComboBox.currentText())
@@ -99,8 +103,10 @@ class Form(QDialog):
 	def on_clicked(self):
 		if str(self.bitpayName.currentText()) == "Bitcoin":
 			self.bitcoinBitpay()
-		if str(self.bitpayName.currentText()) == "Litecoin":
+		elif str(self.bitpayName.currentText()) == "Litecoin":
 			self.litecoinBtce()
+		else:
+			self.removeItems()
 
 	def getdata(self):
 		self.rates = {}
